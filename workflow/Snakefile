@@ -4,14 +4,58 @@
 
 rule all:
     input:
-        expand("{sample}.out", sample=config['samplenames'])
+        expand('kat/kat-comp.k21.{sample}.{rep}.R1_R2.150000000.stats', sample=['LmagMAC','LmagMIC'], rep=['rep1','rep2']), # Compare fwd and rev reads from same libraries (sanity check)
+        expand('kat/kat-comp.k21.{sample}.rep1.{sample}.rep2.150000000.stats', sample=['LmagMAC','LmagMIC']), # Compare replicates within MAC or MIC
+        expand('kat/kat-comp.k21.LmagMAC.{rep1}.LmagMIC.{rep2}.150000000.stats', rep1=['rep1','rep2'], rep2=['rep1','rep2']) # Cross compare MAC vs. MIC
+        
 
-rule dosomething:
+
+rule kat_compare_two_libs:
     input:
-        lambda wildcards: config['rawdata'][wildcards.sample]
+        lib1_fwd='/tmp/loxkat/{sample1}.{rep1}.R1.{numreads}.fq.gz',
+        lib1_rev='/tmp/loxkat/{sample1}.{rep1}.R2.{numreads}.fq.gz',
+        lib2_fwd='/tmp/loxkat/{sample2}.{rep2}.R1.{numreads}.fq.gz',
+        lib2_rev='/tmp/loxkat/{sample2}.{rep2}.R2.{numreads}.fq.gz'
     output:
-        "{sample}.out"
-    # conda: "example.yml"
-    threads: 1
+        'kat/kat-comp.k{kmer}.{sample1}.{rep1}.{sample2}.{rep2}.{numreads}.stats'
+    log: 'logs/kat_compare_two_libs.k{kmer}.{sample1}.{rep1}.{sample2}.{rep2}.{numreads}.log'
+    conda: 'envs/kat.yml'
+    threads: 4
+    params:
+        prefix='kat/kat-comp.k{kmer}.{sample1}.{rep1}.{sample2}.{rep2}.{numreads}'
     shell:
-        "cat {input} > {output}"
+        r"""
+        kat comp -t {threads} -m {wildcards.kmer} -n -o {params.prefix} '{input.lib1_fwd} {input.lib1_rev}' '{input.lib2_fwd} {input.lib2_rev}' &> {log}
+        """
+
+
+
+rule kat_compare_fwd_rev:
+    input:
+        lib1='/tmp/loxkat/{sample}.{rep}.R1.{numreads}.fq.gz',
+        lib2='/tmp/loxkat/{sample}.{rep}.R2.{numreads}.fq.gz'
+    output:
+        'kat/kat-comp.k{kmer}.{sample}.{rep}.R1_R2.{numreads}.stats'
+    conda: 'envs/kat.yml'
+    log: 'logs/kat_compare_fwd_rev.k{kmer}.{sample}.{rep}.{numreads}.log'
+    threads: 4
+    params:
+        prefix='kat/kat-comp.k{kmer}.{sample}.{rep}.R1_R2.{numreads}',
+    shell:
+        r"""
+        kat comp -t {threads} -m {wildcards.kmer} -n -o {params.prefix} {input.lib1} {input.lib2} &> {log}
+        """
+
+
+rule downsample_reads:
+    input:
+        lambda wildcards: config['reads'][wildcards.sample][wildcards.rep][wildcards.readdir][0]
+    output:
+        '/tmp/loxkat/{sample}.{rep}.{readdir}.{numreads}.fq.gz'
+    conda: 'envs/kat.yml'
+    params:
+        rndseed=1234 # necessary for reproducibility and to make sure reads remain paired
+    shell:
+        r"""
+        seqtk sample -s{params.rndseed} {input} {wildcards.numreads} > {output}
+        """

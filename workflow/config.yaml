@@ -1,8 +1,53 @@
-# EXAMPLE: Paths to raw data
-rawdata:
-  sample_A: example/data_A
-  sample_B: example/data_B
-
-samplenames:
-  - sample_A
-  - sample_B
+reads:
+  LmagMAC:
+    rep1:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_A_R1_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_A_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_A_R2_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_A_R2_ktrim_qtrim28.fq.gz
+    rep2:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_C_R1_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_C_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_C_R2_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_C_R2_ktrim_qtrim28.fq.gz
+  LmagMIC:
+    rep1:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_B_R1_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_B_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_B_R2_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_B_R2_ktrim_qtrim28.fq.gz
+    rep2:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_D_R1_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_D_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4615_D_R2_ktrim_qtrim28.fq.gz
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_D_R2_ktrim_qtrim28.fq.gz
+  LstrMAC:
+    rep1:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_E_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_E_R2_ktrim_qtrim28.fq.gz
+    rep2:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_G_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_G_R2_ktrim_qtrim28.fq.gz
+  LstrMIC:
+    rep1:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_F_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_F_R2_ktrim_qtrim28.fq.gz
+    rep2:
+      R1:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_H_R1_ktrim_qtrim28.fq.gz
+      R2:
+        - /ebio/abt2_projects/ag-swart-loxodes/data/reads-trim/4519_H_R2_ktrim_qtrim28.fq.gz
