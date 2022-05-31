@@ -1,3 +1,9 @@
+asm:
+  LmagMIC:
+    /ebio/abt2_projects/ag-swart-loxodes/assembly/falcon-comb_LmagMIC/scaffolds.fasta
+  LmagMAC:
+    /ebio/abt2_projects/ag-swart-loxodes/assembly/falcon-comb_LmagMAC/scaffolds.fasta
+
 reads:
   LmagMAC:
     rep1:

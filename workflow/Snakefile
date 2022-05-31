@@ -6,8 +6,54 @@ rule all:
     input:
         expand('kat/kat-comp.k21.{sample}.{rep}.R1_R2.150000000.stats', sample=['LmagMAC','LmagMIC'], rep=['rep1','rep2']), # Compare fwd and rev reads from same libraries (sanity check)
         expand('kat/kat-comp.k21.{sample}.rep1.{sample}.rep2.150000000.stats', sample=['LmagMAC','LmagMIC']), # Compare replicates within MAC or MIC
-        expand('kat/kat-comp.k21.LmagMAC.{rep1}.LmagMIC.{rep2}.150000000.stats', rep1=['rep1','rep2'], rep2=['rep1','rep2']) # Cross compare MAC vs. MIC
+        expand('kat/kat-comp.k21.LmagMAC.{rep1}.LmagMIC.{rep2}.150000000.stats', rep1=['rep1','rep2'], rep2=['rep1','rep2']), # Cross compare MAC vs. MIC
+        'kat/kat-comp.k21.LmagMAC.all.LmagMIC.all.stats',
+        expand('kat/kat-comp.k21.{reads}.all.LmagMAC.asm.stats', reads=['LmagMAC','LmagMIC'])
         
+
+
+def get_readfiles_by_sample(sample):
+        # return([config['reads'][sample][rep][fr] for rep in config['reads'][sample] for fr in config['reads'][sample][rep]])
+        out = []
+        for rep in expand(config['reads'][sample]):
+            for fr in expand(config['reads'][sample][rep]):
+                out.extend(expand(config['reads'][sample][rep][fr]))
+        return(out)
+
+
+rule kat_compare_reads_assembly:
+    input:
+        asm=lambda wildcards: config['asm'][wildcards.asm],
+        reads=lambda wildcards: get_readfiles_by_sample(wildcards.reads)
+    output:
+        'kat/kat-comp.k{kmer}.{reads}.all.{asm}.asm.stats'
+    params:
+        prefix='kat/kat-comp.k{kmer}.{reads}.all.{asm}.asm'
+    log: 'logs/kat_compare_reads_assembly.k{kmer}.{reads}.{asm}.log'
+    threads: 8
+    conda: 'envs/kat.yml'
+    shell:
+        r"""
+        kat comp -t {threads} -m {wildcards.kmer} -o {params.prefix} '{input.reads}' {input.asm} &> {log};
+        """
+
+
+
+rule kat_compare_two_samples_all_reads:
+    input:
+        sample1=lambda wildcards: get_readfiles_by_sample(wildcards.sample1),
+        sample2=lambda wildcards: get_readfiles_by_sample(wildcards.sample2)
+    output:
+        'kat/kat-comp.k{kmer}.{sample1}.all.{sample2}.all.stats'
+    params:
+        prefix='kat/kat-comp.k{kmer}.{sample1}.all.{sample2}.all'
+    log: 'logs/kat_compare_two_samples_all_reads.k{kmer}.{sample1}.{sample2}.log'
+    threads: 8
+    conda: 'envs/kat.yml'
+    shell:
+        r"""
+        kat comp -t {threads} -m {wildcards.kmer} -n -o {params.prefix} '{input.sample1}' '{input.sample2}' &> {log};
+        """
 
 
 rule kat_compare_two_libs:
