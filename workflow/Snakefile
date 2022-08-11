@@ -8,7 +8,12 @@ rule all:
         expand('kat/kat-comp.k21.{sample}.rep1.{sample}.rep2.150000000.stats', sample=['LmagMAC','LmagMIC']), # Compare replicates within MAC or MIC
         expand('kat/kat-comp.k21.LmagMAC.{rep1}.LmagMIC.{rep2}.150000000.stats', rep1=['rep1','rep2'], rep2=['rep1','rep2']), # Cross compare MAC vs. MIC
         'kat/kat-comp.k21.LmagMAC.all.LmagMIC.all.stats',
-        expand('kat/kat-comp.k21.{reads}.all.LmagMAC.asm.stats', reads=['LmagMAC','LmagMIC'])
+        expand('kat/kat-comp.k21.{reads}.all.LmagMAC.asm.stats', reads=['LmagMAC','LmagMIC']), # Compare against assembly
+        # Lstr
+        expand('kat/kat-comp.k21.{sample}.{rep}.R1_R2.150000000.stats', sample=['LstrMAC','LstrMIC'], rep=['rep1','rep2']),
+        expand('kat/kat-comp.k21.{sample}.rep1.{sample}.rep2.150000000.stats', sample=['LstrMAC','LstrMIC']),
+        expand('kat/kat-comp.k21.LstrMAC.{rep1}.LstrMIC.{rep2}.150000000.stats', rep1=['rep1','rep2'], rep2=['rep1','rep2']),
+        'kat/kat-comp.k21.LstrMAC.all.LstrMIC.all.stats',
         
 
 
