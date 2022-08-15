@@ -14,7 +14,21 @@ rule all:
         expand('kat/kat-comp.k21.{sample}.rep1.{sample}.rep2.150000000.stats', sample=['LstrMAC','LstrMIC']),
         expand('kat/kat-comp.k21.LstrMAC.{rep1}.LstrMIC.{rep2}.150000000.stats', rep1=['rep1','rep2'], rep2=['rep1','rep2']),
         'kat/kat-comp.k21.LstrMAC.all.LstrMIC.all.stats',
-        
+        expand('kat/kat-hist.k21.{sample}', sample=['LmagMAC','LmagMIC','LstrMAC','LstrMIC'])
+
+
+rule kat_hist_reads_all:
+    input:
+        sample=lambda wildcards: get_readfiles_by_sample(wildcards.sample),
+    output:
+        'kat/kat-hist.k{kmer}.{sample}'
+    threads: 16
+    conda: 'envs/kat.yml'
+    log: 'logs/kat_hist_reads_all.k{kmer}.{sample}.log'
+    shell:
+        r"""
+        kat hist -o {output} -t {threads} -m {wildcards.kmer} -v {input.sample} &> {log}
+        """
 
 
 def get_readfiles_by_sample(sample):
