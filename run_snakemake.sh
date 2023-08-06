@@ -18,7 +18,7 @@ WD=/ebio/abt2_projects/ag-swart-loxodes/analysis/kat-kmer
 source activate $SNAKEMAKE_ENV
 
 snakemake \
---cores 8 \
+--cores 16 \
 --configfile $WD/workflow/config.yaml \
 --use-conda \
 --conda-frontend mamba \

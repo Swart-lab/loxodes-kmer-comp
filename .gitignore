@@ -1,6 +1,9 @@
-data/*
-tmp/*
-envs/*
+/data
+/tmp
+/envs
 .snakemake
-logs
-kat
+/logs
+/kat
+/nb/*.pdf
+/nb/*.png
+.ipynb_checkpoints

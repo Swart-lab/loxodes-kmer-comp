@@ -5,6 +5,10 @@ Workflow to compare micronuclear (MIC) and macronuclear (MAC) genomic libraries
 from Loxodes ciliates, to search for MIC-limited sequences and evidence of
 developmental genome editing.
 
+Input files for this workflow are trimmed reads from Loxodes spp. and genome
+assembly for L. magnus, listed in `workflow/config.yml`. Workflow to produce
+these files: [loxodes-assembly-workflow](https://github.com/Swart-lab/loxodes-assembly-workflow).
+
 
 Related datasets
 ----------------
